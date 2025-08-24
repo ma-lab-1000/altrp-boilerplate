@@ -1,5 +1,7 @@
 # Ignore TECH_SPEC.md
 TECH_SPEC.md
+config.json
+database.db
 
 # Dependencies
 node_modules/
