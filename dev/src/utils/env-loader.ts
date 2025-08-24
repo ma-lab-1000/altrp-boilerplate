@@ -12,53 +12,39 @@ import { join } from "path";
  * Load environment variables from database.env file
  */
 export function loadDatabaseConfig(): void {
-  // Try to load from config.json first
-  const configPath = join(process.cwd(), "config.json");
-  
-  if (existsSync(configPath)) {
-    try {
-      const configContent = readFileSync(configPath, "utf8");
-      const config = JSON.parse(configContent);
-      
-      if (config.storage?.database?.path) {
-        process.env.DEV_AGENT_DB_PATH = config.storage.database.path;
-        console.log(`✅ Database path loaded from config.json: ${config.storage.database.path} (updated)`);
-        return;
-      }
-    } catch (error) {
-      console.error("❌ Error reading config.json:", error);
-    }
-  }
-  
-  // Fallback to .env file
+  // Load from .env file in current working directory
   const envFile = join(process.cwd(), ".env");
   
-  if (!existsSync(envFile)) {
-    console.log("ℹ️  No configuration found, using default settings");
-    return;
-  }
-
-  try {
-    const content = readFileSync(envFile, "utf8");
-    const lines = content.split("\n");
-    
-    for (const line of lines) {
-      const trimmedLine = line.trim();
+  if (existsSync(envFile)) {
+    try {
+      const content = readFileSync(envFile, "utf8");
+      const lines = content.split("\n");
       
-      // Skip comments and empty lines
-      if (trimmedLine.startsWith("#") || !trimmedLine.includes("=")) {
-        continue;
+      for (const line of lines) {
+        const trimmedLine = line.trim();
+        
+        // Skip comments and empty lines
+        if (trimmedLine.startsWith("#") || !trimmedLine.includes("=")) {
+          continue;
+        }
+        
+        const [key, value] = trimmedLine.split("=", 2);
+        if (key && value) {
+          process.env[key.trim()] = value.trim();
+        }
       }
       
-      const [key, value] = trimmedLine.split("=", 2);
-      if (key && value) {
-        process.env[key.trim()] = value.trim();
+      if (process.env.DATABASE_PATH) {
+        process.env.DEV_AGENT_DB_PATH = process.env.DATABASE_PATH;
+        console.log(`✅ Database path loaded from .env: ${process.env.DATABASE_PATH}`);
+      } else {
+        console.log("⚠️  DATABASE_PATH not found in .env");
       }
+    } catch (error) {
+      console.error("❌ Error loading .env:", error);
     }
-    
-    console.log("✅ Database configuration loaded");
-  } catch (error) {
-    console.error("❌ Error loading configuration:", error);
+  } else {
+    console.log("⚠️  .env file not found in current directory");
   }
 }
 
