@@ -1,6 +1,6 @@
 # Dev Agent Makefile
 
-.PHONY: help test test-coverage build clean validate ci-check docs-generate task-validate dev-init dev-sync dev-goals-list dev-goals-create protect-branches restore-branches
+.PHONY: help test test-coverage build clean validate ci-check docs-generate task-validate dev-init dev-sync dev-goals-list dev-goals-create protect-branches restore-branches update-dev
 
 help:
 	@echo "Dev Agent - Available Commands:"
@@ -35,6 +35,9 @@ help:
 	@echo "Branch Protection Commands:"
 	@echo "  protect-branches Check protection for critical branches"
 	@echo "  restore-branches Restore any missing critical branches"
+	@echo ""
+	@echo "Subtree Commands:"
+	@echo "  update-dev      Update dev-agent subtree from remote repository"
 
 test:
 	bun test
@@ -157,6 +160,18 @@ restore-branches:
 		git checkout -b develop origin/develop; \
 		echo "Develop branch restored!" \
 	)
+
+# Subtree Commands
+update-dev:
+	@echo "🔄 Updating dev-agent subtree..."
+	@cd .. && git subtree pull --prefix=dev https://github.com/GTFB/dev-agent.git main --squash
+	@echo "✅ Dev-agent subtree updated successfully!"
+	@echo "📝 Now you can commit the updates:"
+	@echo "   git add ."
+	@echo "   git commit -m 'Update dev-agent subtree'"
+	@echo ""
+	@echo "⚠️  IMPORTANT: Do not use git subtree push to send changes to dev-agent!"
+	@echo "   All changes must go through issues and pull requests in dev-agent repository."
 
 # Database & Environment
 db-init:
