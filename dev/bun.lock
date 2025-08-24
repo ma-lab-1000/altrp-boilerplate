@@ -11,7 +11,7 @@
         "zod": "^4.0.17",
       },
       "devDependencies": {
-        "@types/bun": "latest",
+        "@types/bun": "^1.2.20",
         "@types/node": "^24.3.0",
         "@typescript-eslint/eslint-plugin": "^8.40.0",
         "@typescript-eslint/parser": "^8.40.0",

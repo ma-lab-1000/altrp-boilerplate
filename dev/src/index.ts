@@ -153,8 +153,9 @@ async function loadProjectConfig(): Promise<Config | null> {
     }
 
     return validation.data;
-  } catch {
+  } catch (error) {
     console.log("⚠️  Warning: Could not load config.json configuration");
+    console.log(`   Error: ${error}`);
     return null;
   }
 }
@@ -164,6 +165,9 @@ async function loadProjectConfig(): Promise<Config | null> {
  */
 async function main(): Promise<void> {
   try {
+    // Load database configuration first
+    loadDatabaseConfig();
+    
     // Load and validate project configuration
     const projectConfig = await loadProjectConfig();
     
