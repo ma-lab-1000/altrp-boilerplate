@@ -35,10 +35,10 @@ async function runTestsAndParseCoverage(): Promise<{ functions: number; lines: n
       }
 
       try {
-        // Парсим вывод тестов для извлечения данных о покрытии
+        // Parse test output to extract coverage data
         const lines = output.split('\n');
         
-        // Ищем строку "All files" с данными о покрытии
+        // Look for "All files" line with coverage data
         const allFilesLine = lines.find(line => 
           line.includes('All files') && 
           line.includes('|')
@@ -50,8 +50,8 @@ async function runTestsAndParseCoverage(): Promise<{ functions: number; lines: n
 
         console.log('📊 Found coverage line:', allFilesLine);
 
-        // Парсим строку формата: "All files                              |   98.34 |   99.07 |"
-        // Используем regex для извлечения процентов
+        // Parse line format: "All files                              |   98.34 |   99.07 |"
+        // Use regex to extract percentages
         const percentageMatches = allFilesLine.match(/All files\s+\|\s*(\d+\.?\d*)\s*\|\s*(\d+\.?\d*)\s*\|/);
         
         if (!percentageMatches || percentageMatches.length < 3) {
@@ -95,10 +95,10 @@ async function generateCoverageBadge(): Promise<void> {
     const functionsCoverage = coverage.functions;
     const linesCoverage = coverage.lines;
     
-    // Вычисляем среднее покрытие
+            // Calculate average coverage
     const averageCoverage = Math.round((functionsCoverage + linesCoverage) / 2);
     
-    // Определяем цвет badge в зависимости от покрытия
+            // Determine badge color based on coverage
     let color = 'red';
     if (averageCoverage >= 90) {
       color = 'brightgreen';
@@ -112,7 +112,7 @@ async function generateCoverageBadge(): Promise<void> {
       color = 'orange';
     }
     
-    // Создаем SVG badge
+            // Create SVG badge
     const badgeSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="120" height="20">
   <linearGradient id="b" x2="0" y2="100%">
     <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>

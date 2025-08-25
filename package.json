@@ -1,0 +1,22 @@
+{
+  "name": "lnd-boilerplate",
+  "version": "1.0.0",
+  "description": "Modern landing page boilerplate with monorepo architecture",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "bun run --cwd apps/landing dev",
+    "build": "bun run --cwd apps/landing build",
+    "start": "bun run --cwd apps/landing start",
+    "lint": "bun run --cwd apps/landing lint",
+    "type-check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "packageManager": "bun@1.0.0"
+}
