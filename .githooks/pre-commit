@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Pre-commit hook for language validation
+# Prevents Russian/Cyrillic characters in commits
+
+# Get the directory of the script
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+# Run language validation
+if [ -f "$PROJECT_ROOT/scripts/validate-language.sh" ]; then
+    bash "$PROJECT_ROOT/scripts/validate-language.sh"
+    if [ $? -ne 0 ]; then
+        echo ""
+        echo "❌ Commit rejected due to language validation failure"
+        echo "Please fix the issues above and try again"
+        exit 1
+    fi
+else
+    echo "⚠️  Language validation script not found"
+fi
+
+# Run other pre-commit checks if they exist
+if [ -f "$PROJECT_ROOT/scripts/pre-commit-checks.sh" ]; then
+    bash "$PROJECT_ROOT/scripts/pre-commit-checks.sh"
+fi

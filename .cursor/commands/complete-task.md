@@ -6,7 +6,7 @@ A standard procedure for committing, merging, and cleaning up a completed task b
 ## Steps
 1.  **Commit & Propose Integration**
     - Commit your work with a clear, descriptive message.
-    - Create a pull request targeting the `develop` branch.
+    - Create a pull request targeting the `develop` branch with description in english.
 
 2.  **Merge & Cleanup**
     - After the pull request is approved, merge the branches.
