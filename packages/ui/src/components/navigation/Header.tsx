@@ -18,13 +18,16 @@ export function Header({ className }: HeaderProps) {
 
   // Navigation items
   const navigationItems = [
-    { name: 'Главная', href: '/' },
-    { name: 'О нас', href: '/about' },
-    { name: 'Блог', href: '/blog' },
-    { name: 'Компоненты', href: '/components-demo' },
-    { name: 'Поиск', href: '/search-demo' },
+    { name: 'Home', href: '/' },
+    { name: 'About', href: '/about' },
+    { name: 'Blog', href: '/blog' },
+    { name: 'Components', href: '/components-demo' },
+    { name: 'Search', href: '/search-demo' },
     { name: 'SEO', href: '/seo-demo' },
-    { name: 'Контакты', href: '/contact' }
+    { name: 'Content Demo', href: '/content-demo' },
+    { name: 'Application Demo', href: '/application-demo' },
+    { name: 'Docs Demo', href: '/docs-demo' },
+    { name: 'Contact', href: '/contact' }
   ]
 
   // Sample search documents (in real app, this would come from your content)
@@ -32,65 +35,92 @@ export function Header({ className }: HeaderProps) {
     const documents: SearchDocument[] = [
       {
         id: 'home',
-        title: 'Главная страница',
-        content: 'Добро пожаловать в LND Boilerplate - современную платформу для веб-разработки',
-        excerpt: 'Современная платформа для веб-разработки на Next.js 14, TypeScript и Tailwind CSS',
+        title: 'Home Page',
+        content: 'Welcome to LND Boilerplate - modern web development platform',
+        excerpt: 'Modern web development platform built with Next.js 14, TypeScript and Tailwind CSS',
         url: '/',
-        tags: ['главная', 'платформа'],
+        tags: ['home', 'platform'],
         category: 'main'
       },
       {
         id: 'about',
-        title: 'О нас',
-        content: 'Узнайте больше о нашей миссии и команде разработчиков',
-        excerpt: 'Информация о компании, миссии и команде разработчиков',
+        title: 'About Us',
+        content: 'Learn more about our mission and development team',
+        excerpt: 'Information about company, mission and development team',
         url: '/about',
-        tags: ['о нас', 'команда'],
+        tags: ['about', 'team'],
         category: 'company'
       },
       {
         id: 'blog',
-        title: 'Блог',
-        content: 'Читайте последние статьи о веб-разработке и технологиях',
-        excerpt: 'Статьи о веб-разработке, технологиях и лучших практиках',
+        title: 'Blog',
+        content: 'Read latest articles about web development and technologies',
+        excerpt: 'Articles about web development, technologies and best practices',
         url: '/blog',
-        tags: ['блог', 'статьи'],
+        tags: ['blog', 'articles'],
         category: 'content'
       },
       {
         id: 'components',
-        title: 'Демо компонентов',
-        content: 'Демонстрация всех доступных компонентов: Sidebar, TableOfContents, Accordion, Form, PreviousNext',
-        excerpt: 'Все доступные компоненты в одном месте',
+        title: 'Components Demo',
+        content: 'Demonstration of all available components: Sidebar, TableOfContents, Accordion, Form, PreviousNext',
+        excerpt: 'All available components in one place',
         url: '/components-demo',
-        tags: ['компоненты', 'демо'],
+        tags: ['components', 'demo'],
         category: 'ui'
       },
       {
         id: 'search',
-        title: 'Демо поиска',
-        content: 'Демонстрация системы поиска с различными алгоритмами и настройками',
-        excerpt: 'Система поиска с различными алгоритмами',
+        title: 'Search Demo',
+        content: 'Demonstration of search system with various algorithms and settings',
+        excerpt: 'Search system with various algorithms',
         url: '/search-demo',
-        tags: ['поиск', 'алгоритмы'],
+        tags: ['search', 'algorithms'],
         category: 'features'
       },
       {
         id: 'seo',
-        title: 'SEO демо',
-        content: 'Демонстрация SEO утилит для оптимизации веб-страниц',
-        excerpt: 'SEO утилиты для оптимизации',
+        title: 'SEO Demo',
+        content: 'Demonstration of SEO utilities for web page optimization',
+        excerpt: 'SEO utilities for optimization',
         url: '/seo-demo',
-        tags: ['seo', 'оптимизация'],
+        tags: ['seo', 'optimization'],
         category: 'features'
       },
       {
+        id: 'content-demo',
+        title: 'Content Demo',
+        content: 'Demonstration of ContentLayout template for content-driven pages',
+        excerpt: 'ContentLayout template for content-driven pages',
+        url: '/content-demo',
+        tags: ['content', 'layout', 'demo'],
+        category: 'templates'
+      },
+      {
+        id: 'application-demo',
+        title: 'Application Demo',
+        content: 'Demonstration of ApplicationLayout template for application-driven pages',
+        excerpt: 'ApplicationLayout template for application-driven pages',
+        url: '/application-demo',
+        tags: ['application', 'layout', 'demo'],
+        category: 'templates'
+      },
+      {
+        id: 'docs-demo',
+        title: 'Documentation Demo',
+        content: 'Demonstration of DocsLayout template for documentation pages',
+        excerpt: 'DocsLayout template for documentation pages',
+        url: '/docs-demo',
+        tags: ['documentation', 'layout', 'demo'],
+        category: 'templates'
+      },
+      {
         id: 'contact',
-        title: 'Контакты',
-        content: 'Свяжитесь с нами для получения дополнительной информации',
-        excerpt: 'Форма обратной связи и контактная информация',
+        title: 'Contact',
+        content: 'Contact us for additional information',
+        excerpt: 'Contact form and contact information',
         url: '/contact',
-        tags: ['контакты', 'связь'],
+        tags: ['contact', 'support'],
         category: 'company'
       }
     ]
