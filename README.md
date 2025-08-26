@@ -98,9 +98,10 @@ bun run dev
 
 ## 📚 Documentation
 
-- [Technical Specification](./TECH_SPEC.md)
-- [Component API Reference](./docs/)
-- [Architecture Guide](./docs/architecture.md)
+- [Project Documentation](./dev/docs/lnd-boilerplate/) - Complete project documentation
+- [Deployment Guide](./dev/docs/lnd-boilerplate/DEPLOYMENT.md) - Deployment instructions
+- [Project Structure](./dev/docs/lnd-boilerplate/structure.md) - Detailed project structure
+- [Dev Agent Documentation](./dev/docs/) - Development tools documentation
 
 ## 🤝 Contributing
 

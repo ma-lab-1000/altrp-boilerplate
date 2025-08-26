@@ -21,6 +21,7 @@ Systematically improve existing code with a focus on safety through testing and 
    - Merge the branch.
 
 4.  **Handoff to Testing**
+   - To close a task, use the command make dev-goals-close.
    - After the merge, update the task status in the DB to `done`.
    - **Delete the local and remote `refactor` branch.**
    - Transfer control to the next protocol.

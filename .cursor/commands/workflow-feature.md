@@ -19,6 +19,7 @@ Systematically develop new functionality, from selecting a task in the database 
    - Push the branch to the remote repository.
 
 4.  **Handoff to Testing**
+   - To close a task, use the command make dev-goals-close.
    - After the merge, update the task status in the DB to `done`.
    - **Delete the local and remote `feature` branch.**
    - Transfer control to the next protocol.

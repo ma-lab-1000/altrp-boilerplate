@@ -17,6 +17,7 @@ A rapid fix for a critical bug in production, followed by integration into `main
    - **Increment the patch version** in `package.json`, `config.sample.json`, and update `CHANGELOG.md`.
 
 3.  **Create Pull Request**
+   - To close a task, use the command make dev-goals-close.
    - Push the hotfix branch to the remote repository.
    - Create a Pull Request **targeting the `main` branch**.
    - Pass CI checks and an expedited code review.
