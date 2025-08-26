@@ -87,6 +87,41 @@ export default function BlogList() {
 }
 ```
 
+### 5. DocsLayout
+**Optimized for documentation pages**
+```tsx
+import { DocsLayout } from '@lnd/ui/templates'
+
+export default function DocumentationPage() {
+  const tableOfContents = [
+    { id: 'introduction', title: 'Introduction', level: 1 },
+    { id: 'getting-started', title: 'Getting Started', level: 2 }
+  ]
+
+  return (
+    <DocsLayout 
+      title="API Documentation"
+      description="Complete API reference guide"
+      tableOfContents={tableOfContents}
+    >
+      <div className="prose prose-lg">
+        <h2 id="introduction">Introduction</h2>
+        <p>Your documentation content here...</p>
+      </div>
+    </DocsLayout>
+  )
+}
+```
+
+**Features:**
+- Configurable navigation sidebar
+- Built-in search functionality
+- Breadcrumb navigation
+- Reading progress indicator
+- Table of contents
+- Mobile-responsive design
+- All features configurable through site.config.json
+
 ## Usage Guidelines
 
 ### When to Use ContentLayout
@@ -109,6 +144,14 @@ export default function BlogList() {
 - ✅ Search results
 - ✅ Category pages
 - ✅ Archive pages
+
+### When to Use DocsLayout
+- ✅ API documentation
+- ✅ User guides and tutorials
+- ✅ Technical specifications
+- ✅ Knowledge bases
+- ✅ Developer documentation
+- ✅ Help centers
 
 ## Migration Guide
 
@@ -136,6 +179,11 @@ export default function BlogList() {
 <ApplicationLayout title={title} description={description}>
   {interactiveContent}
 </ApplicationLayout>
+
+// Documentation page
+<DocsLayout title={title} description={description} tableOfContents={toc}>
+  {documentationContent}
+</DocsLayout>
 ```
 
 ## Performance Considerations
@@ -152,14 +200,22 @@ export default function BlogList() {
 - State management integration
 - Interactive component support
 
+### DocsLayout
+- Configurable through site.config.json
+- Lazy loading of navigation items
+- Efficient search indexing
+- Mobile-optimized interactions
+
 ## Best Practices
 
 1. **Choose the right layout** based on page type and requirements
 2. **Use ContentLayout** for static, SEO-critical content
 3. **Use ApplicationLayout** for dynamic, interactive features
-4. **Keep layouts focused** on their specific use cases
-5. **Test performance** with each layout type
-6. **Document layout choices** in your project
+4. **Use DocsLayout** for comprehensive documentation with navigation
+5. **Configure features** through site.config.json for DocsLayout
+6. **Keep layouts focused** on their specific use cases
+7. **Test performance** with each layout type
+8. **Document layout choices** in your project
 
 ## Examples
 
