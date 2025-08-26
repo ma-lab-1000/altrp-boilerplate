@@ -1,6 +1,6 @@
 # LND Boilerplate Makefile
 
-.PHONY: help dev-help dev-test dev-build dev-clean dev-validate dev-lint dev-update lint utils-test
+.PHONY: help dev-help dev-test dev-build dev-clean dev-validate dev-lint dev-update lint utils-test sync-main reset-develop push-develop workspace-status workspace-commit
 
 help:
 	@echo "LND Boilerplate - Available Commands:"
@@ -17,6 +17,12 @@ help:
 	@echo "Project Commands:"
 	@echo "  lint          Run linting for apps/landing"
 	@echo "  utils-test    Run tests for packages/utils"
+	@echo ""
+	@echo "Workspace Sync Commands:"
+	@echo "  sync-main         Sync local main with remote"
+	@echo "  reset-develop     Reset develop to remote and merge main"
+	@echo "  push-develop      Push develop branch"
+	@echo "  workspace-status  Show git status"
 	@echo ""
 	@echo "For detailed dev-agent commands, run: make dev-help"
 
@@ -47,6 +53,38 @@ lint:
 utils-test:
 	@echo "🧪 Running tests for packages/utils..."
 	@bun run --cwd packages/utils test
+
+# Workspace synchronization
+sync-main:
+	@echo "🔄 Syncing main..."
+	@git fetch --all --prune
+	@git checkout main
+	@git pull --ff-only
+	@echo "✅ main is up to date"
+
+reset-develop:
+	@echo "🧹 Resetting develop and merging main..."
+	@git fetch --all --prune
+	@git checkout develop
+	@git reset --hard origin/develop
+	@git clean -fd
+	@git merge --ff-only main || echo "⚠️ Fast-forward merge not possible; manual merge may be required"
+	@echo "✅ develop reset complete"
+
+push-develop:
+	@echo "⬆️  Pushing develop..."
+	@git push origin develop
+	@echo "✅ develop pushed"
+
+workspace-status:
+	@echo "📋 Git status:"
+	@git status -sb | cat
+
+workspace-commit:
+	@echo "📝 Committing Makefile changes for sync..."
+	@git add Makefile
+	@git commit -m "chore: add workspace sync targets to Makefile" || echo "ℹ️ Nothing to commit"
+	@echo "✅ Commit step done"
 
 dev-update:
 	@echo "🔄 Updating dev-agent subtree..."
