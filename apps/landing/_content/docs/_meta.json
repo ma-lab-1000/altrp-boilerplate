@@ -1,0 +1,19 @@
+{
+  "introduction": "Introduction",
+  "installation": "Installation Guide",
+  "architecture": "System Architecture",
+  "getting-started": {
+    "title": "Getting Started",
+    "pages": {
+      "quick-start": "Quick Start Guide",
+      "first-steps": "First Steps"
+    }
+  },
+  "advanced": {
+    "title": "Advanced Topics",
+    "pages": {
+      "customization": "Customization Guide",
+      "performance": "Performance Optimization"
+    }
+  }
+}

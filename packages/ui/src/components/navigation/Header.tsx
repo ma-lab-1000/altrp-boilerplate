@@ -5,7 +5,8 @@ import Link from 'next/link'
 import { cn } from '../../lib/utils'
 import { ThemeToggle } from '../ui/ThemeToggle'
 import { SearchModal } from '../ui/SearchModal'
-import { simpleSearch, SearchDocument } from '@lnd/utils/search'
+import { useSearchDocuments } from '../../hooks/useSearchDocuments'
+import { useSiteConfig } from '../../providers/SiteConfigProvider'
 
 export interface HeaderProps {
   className?: string
@@ -14,118 +15,32 @@ export interface HeaderProps {
 export function Header({ className }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
-  const [searchDocuments, setSearchDocuments] = useState<SearchDocument[]>([])
+  const { documents: searchDocuments, isLoading: isSearchLoading, error: searchError } = useSearchDocuments()
+  const { config: siteConfig } = useSiteConfig()
 
-  // Navigation items
-  const navigationItems = [
-    { name: 'Home', href: '/' },
-    { name: 'About', href: '/about' },
-    { name: 'Blog', href: '/blog' },
-    { name: 'Components', href: '/components-demo' },
-    { name: 'Search', href: '/search-demo' },
-    { name: 'SEO', href: '/seo-demo' },
-    { name: 'Content Demo', href: '/content-demo' },
-    { name: 'Application Demo', href: '/application-demo' },
-    { name: 'Docs Demo', href: '/docs-demo' },
-    { name: 'Contact', href: '/contact' }
-  ]
-
-  // Sample search documents (in real app, this would come from your content)
-  useEffect(() => {
-    const documents: SearchDocument[] = [
-      {
-        id: 'home',
-        title: 'Home Page',
-        content: 'Welcome to LND Boilerplate - modern web development platform',
-        excerpt: 'Modern web development platform built with Next.js 14, TypeScript and Tailwind CSS',
-        url: '/',
-        tags: ['home', 'platform'],
-        category: 'main'
-      },
-      {
-        id: 'about',
-        title: 'About Us',
-        content: 'Learn more about our mission and development team',
-        excerpt: 'Information about company, mission and development team',
-        url: '/about',
-        tags: ['about', 'team'],
-        category: 'company'
-      },
-      {
-        id: 'blog',
-        title: 'Blog',
-        content: 'Read latest articles about web development and technologies',
-        excerpt: 'Articles about web development, technologies and best practices',
-        url: '/blog',
-        tags: ['blog', 'articles'],
-        category: 'content'
-      },
-      {
-        id: 'components',
-        title: 'Components Demo',
-        content: 'Demonstration of all available components: Sidebar, TableOfContents, Accordion, Form, PreviousNext',
-        excerpt: 'All available components in one place',
-        url: '/components-demo',
-        tags: ['components', 'demo'],
-        category: 'ui'
-      },
-      {
-        id: 'search',
-        title: 'Search Demo',
-        content: 'Demonstration of search system with various algorithms and settings',
-        excerpt: 'Search system with various algorithms',
-        url: '/search-demo',
-        tags: ['search', 'algorithms'],
-        category: 'features'
-      },
-      {
-        id: 'seo',
-        title: 'SEO Demo',
-        content: 'Demonstration of SEO utilities for web page optimization',
-        excerpt: 'SEO utilities for optimization',
-        url: '/seo-demo',
-        tags: ['seo', 'optimization'],
-        category: 'features'
-      },
-      {
-        id: 'content-demo',
-        title: 'Content Demo',
-        content: 'Demonstration of ContentLayout template for content-driven pages',
-        excerpt: 'ContentLayout template for content-driven pages',
-        url: '/content-demo',
-        tags: ['content', 'layout', 'demo'],
-        category: 'templates'
-      },
-      {
-        id: 'application-demo',
-        title: 'Application Demo',
-        content: 'Demonstration of ApplicationLayout template for application-driven pages',
-        excerpt: 'ApplicationLayout template for application-driven pages',
-        url: '/application-demo',
-        tags: ['application', 'layout', 'demo'],
-        category: 'templates'
-      },
-      {
-        id: 'docs-demo',
-        title: 'Documentation Demo',
-        content: 'Demonstration of DocsLayout template for documentation pages',
-        excerpt: 'DocsLayout template for documentation pages',
-        url: '/docs-demo',
-        tags: ['documentation', 'layout', 'demo'],
-        category: 'templates'
-      },
-      {
-        id: 'contact',
-        title: 'Contact',
-        content: 'Contact us for additional information',
-        excerpt: 'Contact form and contact information',
-        url: '/contact',
-        tags: ['contact', 'support'],
-        category: 'company'
-      }
+  // Navigation items from site.config.json (simple menu)
+  const navigationItems = (() => {
+    const blogPath = siteConfig?.getFeatureConfig('blog')?.path ?? '/blog'
+    const docsPath = siteConfig?.getFeatureConfig('documentation')?.path ?? '/docs'
+    return [
+      { name: 'Home', href: '/' },
+      { name: 'Blog', href: blogPath },
+      { name: 'Docs', href: docsPath },
+      { name: 'Experts', href: '/experts' },
+      { name: 'Legal', href: '/legal' },
+      { name: 'Contacts', href: '/contact' }
     ]
-    setSearchDocuments(documents)
-  }, [])
+  })()
+
+  // Log search loading state for debugging
+  useEffect(() => {
+    if (searchError) {
+      console.error('Search documents loading error:', searchError)
+    }
+    if (!isSearchLoading && searchDocuments.length > 0) {
+      console.log('Search documents loaded:', searchDocuments.length, 'documents')
+    }
+  }, [isSearchLoading, searchDocuments, searchError])
 
   // Handle Ctrl+K shortcut
   useEffect(() => {
@@ -142,28 +57,28 @@ export function Header({ className }: HeaderProps) {
 
   return (
     <>
-      <header className={cn('bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40', className)}>
+      <header className={cn('sticky top-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border/40', className)}>
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <div className="flex items-center">
-              <Link href="/" className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">L</span>
+              <Link href="/" className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                  <span className="text-primary-foreground font-bold text-lg">L</span>
                 </div>
-                <span className="text-xl font-bold text-gray-900 dark:text-white">
+                <span className="text-xl font-bold text-foreground">
                   LND
                 </span>
               </Link>
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-8">
+            <nav className="hidden md:flex items-center gap-8">
               {navigationItems.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors font-medium"
+                  className="font-sans text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                 >
                   {item.name}
                 </Link>
@@ -171,11 +86,11 @@ export function Header({ className }: HeaderProps) {
             </nav>
 
             {/* Right side actions */}
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center gap-4">
               {/* Search Button */}
               <button
                 onClick={() => setIsSearchOpen(true)}
-                className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors"
+                className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent rounded-md transition-colors"
                 aria-label="Search"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -189,7 +104,7 @@ export function Header({ className }: HeaderProps) {
               {/* Mobile menu button */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="md:hidden p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors"
+                className="md:hidden p-2 text-muted-foreground hover:text-foreground hover:bg-accent rounded-md transition-colors"
                 aria-label="Toggle mobile menu"
               >
                 <svg
@@ -210,14 +125,14 @@ export function Header({ className }: HeaderProps) {
 
           {/* Mobile Navigation */}
           {isMobileMenuOpen && (
-            <div className="md:hidden border-t border-gray-200 dark:border-gray-700">
+            <div className="md:hidden border-t border-border/40">
               <nav className="py-4 space-y-2">
                 {navigationItems.map((item) => (
                   <Link
                     key={item.name}
                     href={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="block px-4 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors"
+                    className="block px-4 py-2 font-sans text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent rounded-md transition-colors"
                   >
                     {item.name}
                   </Link>
@@ -233,6 +148,7 @@ export function Header({ className }: HeaderProps) {
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
         documents={searchDocuments}
+        isLoading={isSearchLoading}
       />
     </>
   )

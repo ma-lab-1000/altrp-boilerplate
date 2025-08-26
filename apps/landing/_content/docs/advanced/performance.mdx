@@ -1,0 +1,113 @@
+---
+title: "Performance Optimization"
+description: "Tips and techniques for optimizing LND Boilerplate performance"
+---
+
+# Performance Optimization
+
+This guide covers performance optimization techniques for LND Boilerplate.
+
+## Image Optimization
+
+### Using Next.js Image Component
+
+Always use the `next/image` component for optimized images:
+
+```jsx
+import Image from 'next/image'
+
+<Image
+  src="/path/to/image.jpg"
+  alt="Description"
+  width={800}
+  height={600}
+  priority={isAboveFold}
+/>
+```
+
+### Image Formats
+
+- Use WebP for better compression
+- Provide fallbacks for older browsers
+- Consider using responsive images
+
+## Code Splitting
+
+### Dynamic Imports
+
+Use dynamic imports for code splitting:
+
+```jsx
+import dynamic from 'next/dynamic'
+
+const HeavyComponent = dynamic(() => import('./HeavyComponent'), {
+  loading: () => <p>Loading...</p>
+})
+```
+
+### Route-based Splitting
+
+Next.js automatically splits code by route, but you can optimize further:
+
+- Lazy load components
+- Use React.lazy for client-side components
+- Implement proper loading states
+
+## Bundle Optimization
+
+### Tree Shaking
+
+Ensure your imports are tree-shakeable:
+
+```jsx
+// Good
+import { Button } from '@lnd/ui/components'
+
+// Avoid
+import * as UI from '@lnd/ui/components'
+```
+
+### Bundle Analysis
+
+Use bundle analyzers to identify optimization opportunities:
+
+```bash
+bun run analyze
+```
+
+## Caching Strategies
+
+### Static Generation
+
+Use static generation when possible:
+
+```jsx
+export async function generateStaticParams() {
+  // Generate static pages at build time
+}
+```
+
+### ISR (Incremental Static Regeneration)
+
+For dynamic content that doesn't change frequently:
+
+```jsx
+export const revalidate = 3600 // Revalidate every hour
+```
+
+## Monitoring
+
+### Performance Metrics
+
+Monitor key performance metrics:
+
+- First Contentful Paint (FCP)
+- Largest Contentful Paint (LCP)
+- Cumulative Layout Shift (CLS)
+- First Input Delay (FID)
+
+### Tools
+
+- Lighthouse for performance audits
+- Web Vitals for real user monitoring
+- Bundle analyzers for bundle size optimization

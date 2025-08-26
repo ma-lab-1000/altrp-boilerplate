@@ -2,15 +2,16 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { cn } from '../../lib/utils'
-import { simpleSearch, SearchDocument } from '@lnd/utils/search'
+import { simpleSearch, type SearchDocument } from '@lnd/utils/search/client'
 
 export interface SearchModalProps {
   isOpen: boolean
   onClose: () => void
   documents: SearchDocument[]
+  isLoading?: boolean
 }
 
-export function SearchModal({ isOpen, onClose, documents }: SearchModalProps) {
+export function SearchModal({ isOpen, onClose, documents, isLoading = false }: SearchModalProps) {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<ReturnType<typeof simpleSearch>>([])
   const [selectedIndex, setSelectedIndex] = useState(0)
@@ -176,6 +177,12 @@ export function SearchModal({ isOpen, onClose, documents }: SearchModalProps) {
                   </div>
                 ))}
               </div>
+            ) : isLoading ? (
+              <div className="p-8 text-center text-gray-500 dark:text-gray-400">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                <p className="text-lg font-medium">Loading content...</p>
+                <p className="text-sm">Indexing MDX files for search</p>
+              </div>
             ) : query ? (
               <div className="p-8 text-center text-gray-500 dark:text-gray-400">
                 <svg className="w-12 h-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -190,7 +197,7 @@ export function SearchModal({ isOpen, onClose, documents }: SearchModalProps) {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
                 <p className="text-lg font-medium">Search the site</p>
-                <p className="text-sm">Type to start searching...</p>
+                <p className="text-sm">Type to start searching through {documents.length} documents...</p>
               </div>
             )}
           </div>

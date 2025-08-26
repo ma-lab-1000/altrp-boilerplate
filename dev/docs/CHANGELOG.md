@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2025-01-27
+
+### ✨ New Features
+- **Comprehensive Language Validation System**: Automatic validation for all GitHub submissions (commits, PRs, comments)
+- **Documentation Template (DocsLayout)**: Advanced documentation layout with configurable navigation, search, and TOC
+- **Content-Driven vs Application-Driven Pages Architecture**: Strict separation of content (MDX/JSON) and application logic (TSX)
+- **Automatic Task Close Protocol**: Streamlined workflow for task completion and GitHub integration
+- **Unified Site Configuration System**: Centralized configuration through `site.config.json`
+
+### 🔧 Improvements
+- **Enhanced Navigation**: Improved sidebar with proper spacing, toggle controls, and RTL support
+- **Advanced Search**: Real-time search functionality with MDX content indexing
+- **Responsive Design**: Better mobile experience with collapsible navigation
+- **Performance Optimizations**: Optimized content loading and rendering
+
+### 🐛 Bug Fixes
+- **Build Errors**: Resolved DocsLayout compilation issues
+- **Navigation Issues**: Fixed sidebar positioning and footer overlap
+- **Form Focus**: Removed unwanted blue glow from form elements
+- **TOC Functionality**: Fixed table of contents to properly link to page sections
+
+### 📚 Documentation
+- **Architecture Documentation**: Complete documentation of content vs application page separation
+- **Protocol Documentation**: Updated workflow protocols and task management
+- **API Documentation**: Enhanced API endpoint documentation
+
 ## [0.3.0] - 2025-08-23
 
 ### ✨ New Features

@@ -1,19 +1,22 @@
-import type { Metadata, Viewport } from 'next'
-import { Inter } from 'next/font/google'
+import type { Metadata } from 'next'
+import { Inter, Inter_Tight } from 'next/font/google'
 import '../styles/globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ 
+  subsets: ['latin'],
+  variable: '--font-sans',
+  display: 'swap',
+})
+
+const interTight = Inter_Tight({ 
+  subsets: ['latin'],
+  variable: '--font-heading',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: 'LND Boilerplate',
-  description: 'Modern landing page boilerplate with monorepo architecture',
-}
-
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
+  description: 'Modern web development platform built with Next.js 14, TypeScript and Tailwind CSS',
 }
 
 export default function RootLayout({
@@ -22,8 +25,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className={`${inter.variable} ${interTight.variable}`}>
+      <body className="font-sans antialiased">
+        {children}
+      </body>
     </html>
   )
 }

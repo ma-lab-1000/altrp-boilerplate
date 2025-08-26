@@ -1,0 +1,187 @@
+---
+title: "Building Custom Components"
+description: "A comprehensive guide to creating and customizing components in the LND UI library."
+date: "2025-01-24"
+authorId: "john-smith"
+tags: ["Components", "UI Library", "Development"]
+category: "Tutorials"
+image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=400&fit=crop"
+coverImage: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=400&fit=crop"
+draft: false
+featured: false
+---
+
+# Building Custom Components
+
+The LND UI library provides a comprehensive set of components, but sometimes you need to create custom components that fit your specific needs. This guide will show you how to build, style, and integrate custom components into your LND Boilerplate application.
+
+## Component Architecture Overview
+
+Our component system follows a three-tier architecture:
+
+1. **Primitives** - Basic building blocks
+2. **Compositions** - Complex components assembled from primitives
+3. **Templates** - High-level page skeletons
+
+## Creating a Primitive Component
+
+Let's start by creating a simple primitive component:
+
+```tsx
+// packages/ui/src/components/ui/CustomButton.tsx
+import React from 'react'
+import { cn } from '../../lib/utils'
+
+interface CustomButtonProps {
+  children: React.ReactNode
+  variant?: 'primary' | 'secondary' | 'outline'
+  size?: 'sm' | 'md' | 'lg'
+  className?: string
+  onClick?: () => void
+}
+
+export const CustomButton: React.FC<CustomButtonProps> = ({
+  children,
+  variant = 'primary',
+  size = 'md',
+  className,
+  onClick,
+  ...props
+}) => {
+  const baseClasses = 'font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2'
+  
+  const variantClasses = {
+    primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+    secondary: 'bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500',
+    outline: 'border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-blue-500'
+  }
+  
+  const sizeClasses = {
+    sm: 'px-3 py-1.5 text-sm',
+    md: 'px-4 py-2 text-base',
+    lg: 'px-6 py-3 text-lg'
+  }
+
+  return (
+    <button
+      className={cn(
+        baseClasses,
+        variantClasses[variant],
+        sizeClasses[size],
+        className
+      )}
+      onClick={onClick}
+      {...props}
+    >
+      {children}
+    </button>
+  )
+}
+```
+
+## Creating a Composition Component
+
+Now let's create a more complex component that uses our primitive:
+
+```tsx
+// packages/ui/src/components/marketing/FeatureCard.tsx
+import React from 'react'
+import { CustomButton } from '../ui/CustomButton'
+import { cn } from '../../lib/utils'
+
+interface FeatureCardProps {
+  title: string
+  description: string
+  icon?: React.ReactNode
+  ctaText?: string
+  ctaHref?: string
+  className?: string
+}
+
+export const FeatureCard: React.FC<FeatureCardProps> = ({
+  title,
+  description,
+  icon,
+  ctaText,
+  ctaHref,
+  className
+}) => {
+  return (
+    <div className={cn('bg-white rounded-lg shadow-md p-6 border border-gray-200', className)}>
+      {icon && (
+        <div className="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-lg mb-4">
+          {icon}
+        </div>
+      )}
+      
+      <h3 className="text-xl font-semibold text-gray-900 mb-2">
+        {title}
+      </h3>
+      
+      <p className="text-gray-600 mb-4">
+        {description}
+      </p>
+      
+      {ctaText && ctaHref && (
+        <CustomButton
+          variant="outline"
+          size="sm"
+          onClick={() => window.open(ctaHref, '_blank')}
+        >
+          {ctaText}
+        </CustomButton>
+      )}
+    </div>
+  )
+}
+```
+
+## Styling Guidelines
+
+When creating custom components, follow these styling guidelines:
+
+### 1. Use Tailwind CSS Classes
+
+```tsx
+// Good
+<div className="bg-white rounded-lg shadow-md p-6">
+
+// Avoid inline styles
+<div style={{ backgroundColor: 'white', borderRadius: '8px' }}>
+```
+
+### 2. Use the `cn` Utility
+
+```tsx
+import { cn } from '../../lib/utils'
+
+// Allows for conditional classes and merging
+<div className={cn(
+  'base-classes',
+  condition && 'conditional-classes',
+  className // Allow external className override
+)}>
+```
+
+## Best Practices
+
+1. **Keep components focused** - Each component should have a single responsibility
+2. **Use TypeScript** - Always define proper interfaces for props
+3. **Make components accessible** - Include proper ARIA attributes
+4. **Document your components** - Add JSDoc comments for complex props
+5. **Test thoroughly** - Write unit tests for your components
+6. **Follow naming conventions** - Use PascalCase for component names
+
+## Conclusion
+
+Creating custom components in LND Boilerplate is straightforward when you follow the established patterns and guidelines. Start with primitives, build compositions, and always test your components thoroughly.
+
+Remember to:
+- Follow the three-tier architecture
+- Use Tailwind CSS for styling
+- Write TypeScript interfaces
+- Test your components
+- Export them properly
+- Document their usage
+
+Happy component building! 🎨

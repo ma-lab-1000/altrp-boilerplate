@@ -1,0 +1,77 @@
+---
+title: "Customization Guide"
+description: "Advanced customization options for LND Boilerplate"
+---
+
+# Customization Guide
+
+This guide covers advanced customization options for LND Boilerplate.
+
+## Theme Customization
+
+### Colors
+
+You can customize the color scheme by modifying the Tailwind configuration:
+
+```javascript
+// tailwind.config.js
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          50: '#eff6ff',
+          500: '#3b82f6',
+          900: '#1e3a8a',
+        }
+      }
+    }
+  }
+}
+```
+
+### Typography
+
+Customize typography using the prose classes:
+
+```jsx
+<div className="prose prose-lg max-w-none">
+  <h1>Custom Typography</h1>
+  <p>Your content here</p>
+</div>
+```
+
+## Component Customization
+
+### Creating Custom Components
+
+1. Create your component in `packages/ui/src/components/`
+2. Export it from the appropriate index file
+3. Use it in your applications
+
+### Extending Templates
+
+All templates are designed to be extensible. You can:
+
+- Override default props
+- Add custom sections
+- Modify the layout structure
+
+## Advanced Configuration
+
+### Site Configuration
+
+The `site.config.json` file controls:
+
+- Site metadata
+- Navigation structure
+- Feature flags
+- SEO settings
+
+### Build Configuration
+
+Customize the build process by modifying:
+
+- `next.config.js` for Next.js settings
+- `bun.config.js` for Bun configuration
+- `tsconfig.json` for TypeScript settings

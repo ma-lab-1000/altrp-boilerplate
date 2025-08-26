@@ -1,0 +1,87 @@
+---
+title: "Installation Guide"
+description: "Step-by-step instructions to get LND Boilerplate up and running."
+---
+
+# Installation Guide
+
+This guide will walk you through setting up LND Boilerplate on your local machine.
+
+## Prerequisites
+
+Before you begin, make sure you have the following installed:
+
+- **Node.js** 18.17 or later
+- **Bun** 1.0 or later (recommended) or npm/yarn
+- **Git** for version control
+
+## Quick Start
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-org/lnd-boilerplate.git
+   cd lnd-boilerplate
+   ```
+
+2. **Install dependencies**
+   ```bash
+   bun install
+   ```
+
+3. **Start the development server**
+   ```bash
+   bun run dev
+   ```
+
+4. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000)
+
+## Project Structure
+
+After installation, your project structure will look like this:
+
+```
+lnd-boilerplate/
+├── apps/
+│   └── landing/          # Main Next.js application
+├── packages/
+│   ├── ui/              # UI component library
+│   └── utils/           # Utility functions
+├── _content/            # Content files (MDX, JSON)
+└── docs/                # Documentation
+```
+
+## Configuration
+
+The project uses `site.config.json` for configuration. You can customize:
+
+- Site metadata
+- Feature toggles
+- SEO settings
+- UI themes
+- Deployment settings
+
+## Next Steps
+
+Now that you have LND Boilerplate running locally, you can:
+
+- Explore the component library
+- Create your first page
+- Add content with MDX
+- Customize the design system
+- Deploy to production
+
+## Troubleshooting
+
+If you encounter any issues:
+
+1. Make sure you're using the correct Node.js version
+2. Clear your node_modules and reinstall dependencies
+3. Check the console for error messages
+4. Refer to our troubleshooting guide
+
+## Need Help?
+
+- Check our [documentation](/docs)
+- Join our community discussions
+- Open an issue on GitHub

@@ -1,0 +1,1 @@
+export { useSearchDocuments } from './useSearchDocuments'

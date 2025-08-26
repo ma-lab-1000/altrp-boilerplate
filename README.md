@@ -1,5 +1,10 @@
 # LND Boilerplate
 
+[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/your-org/lnd-boilerplate)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Next.js](https://img.shields.io/badge/Next.js-14-black.svg)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue.svg)](https://www.typescriptlang.org/)
+
 Modern landing page boilerplate with monorepo architecture built with Next.js, TypeScript, Tailwind CSS, and MDX.
 
 ## 🏗️ Architecture

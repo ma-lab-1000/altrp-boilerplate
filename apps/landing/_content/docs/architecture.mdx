@@ -1,0 +1,169 @@
+---
+title: "System Architecture"
+description: "Understanding the architecture and design decisions behind LND Boilerplate."
+---
+
+# System Architecture
+
+LND Boilerplate is built with a modern, scalable architecture that prioritizes developer experience, performance, and maintainability.
+
+## Core Principles
+
+### 1. Monorepo Structure
+
+We use a monorepo approach to manage multiple related packages:
+
+```
+lnd-boilerplate/
+├── apps/
+│   └── landing/          # Next.js application
+├── packages/
+│   ├── ui/              # Shared UI components
+│   └── utils/           # Shared utilities
+└── _content/            # Content files
+```
+
+**Benefits:**
+- Shared code between applications
+- Consistent tooling and dependencies
+- Simplified development workflow
+- Atomic changes across packages
+
+### 2. Component Architecture
+
+Our component system follows a three-tier architecture:
+
+#### Primitives
+Basic building blocks that provide fundamental functionality.
+
+#### Compositions
+Complex components assembled from primitives.
+
+#### Templates
+High-level page skeletons that define overall structure.
+
+### 3. Content-Driven Architecture
+
+LND Boilerplate supports both content-driven and application-driven pages:
+
+#### Content-Driven Pages
+- Static content with MDX
+- SEO-optimized
+- Fast loading
+- Perfect for blogs, documentation, marketing pages
+
+#### Application-Driven Pages
+- Dynamic, interactive content
+- Real-time data
+- User authentication
+- Perfect for dashboards, admin panels, user accounts
+
+## Technology Stack
+
+### Frontend
+- **Next.js 14** - React framework with App Router
+- **TypeScript** - Type-safe development
+- **Tailwind CSS** - Utility-first CSS framework
+- **MDX** - Markdown with JSX components
+
+### Development Tools
+- **Bun** - Fast JavaScript runtime and package manager
+- **ESLint** - Code linting
+- **Prettier** - Code formatting
+- **TypeScript** - Static type checking
+
+## Configuration System
+
+### Site Configuration (`site.config.json`)
+
+Centralized configuration for the entire application:
+
+```json
+{
+  "site": {
+    "name": "LND Boilerplate",
+    "description": "Modern web development platform"
+  },
+  "features": {
+    "blog": { "enabled": true },
+    "search": { "enabled": true },
+    "documentation": { "enabled": true }
+  }
+}
+```
+
+## Content Management
+
+### MDX Integration
+
+MDX files are processed and rendered as React components:
+
+```mdx
+---
+title: "My Blog Post"
+date: "2025-01-25"
+---
+
+# My Blog Post
+
+This is **markdown** with <CustomComponent /> support.
+```
+
+### Content Processing Pipeline
+
+1. **Discovery** - Find MDX files in content directories
+2. **Parsing** - Extract frontmatter and content
+3. **Processing** - Transform markdown to JSX
+4. **Rendering** - Render as React components
+5. **Caching** - Cache processed content for performance
+
+## Performance Optimizations
+
+### Static Generation
+- Pre-render pages at build time
+- Generate static HTML for content pages
+- Optimize for Core Web Vitals
+
+### Code Splitting
+- Automatic code splitting by route
+- Dynamic imports for heavy components
+- Lazy loading for non-critical features
+
+## Security Considerations
+
+### Content Security Policy
+- Configured security headers
+- XSS protection
+- Input validation with ZOD schemas
+
+## Development Workflow
+
+### Local Development
+```bash
+# Install dependencies
+bun install
+
+# Start development server
+bun run dev
+
+# Build for production
+bun run build
+```
+
+### Code Quality
+- ESLint for code linting
+- Prettier for code formatting
+- TypeScript for type safety
+- Git hooks for validation
+
+## Conclusion
+
+LND Boilerplate's architecture is designed to be:
+
+- **Scalable** - Can grow with your project
+- **Maintainable** - Easy to understand and modify
+- **Performant** - Optimized for speed and efficiency
+- **Developer-Friendly** - Great developer experience
+- **Production-Ready** - Built for real-world applications
+
+This architecture provides a solid foundation for building modern, high-performance web applications while maintaining flexibility for future growth and customization.

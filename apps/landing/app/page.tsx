@@ -93,8 +93,8 @@ export default function HomePage() {
         subtitle="LND Boilerplate"
         description="A comprehensive landing page boilerplate with monorepo architecture, built with Next.js, TypeScript, and Tailwind CSS. Start building beautiful, performant websites in minutes."
         ctaButtons={[
-          { text: 'Get Started', variant: 'default' },
-          { text: 'View Documentation', variant: 'outline' }
+          { text: 'Get Started', variant: 'default', href: '/docs' },
+          { text: 'View Blog', variant: 'outline', href: '/blog' }
         ]}
         image={{
           src: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=400&fit=crop',

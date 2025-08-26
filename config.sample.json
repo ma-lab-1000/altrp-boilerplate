@@ -1,6 +1,6 @@
 {
   "name": "dev-agent",
-  "version": "0.3.0",
+  "version": "1.1.0",
   "description": "Dev Agent - CLI assistant for the High-Efficiency Standard Operating Protocol",
   "github": {
     "owner": "your-org",
