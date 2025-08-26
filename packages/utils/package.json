@@ -1,0 +1,24 @@
+{
+  "name": "@lnd/utils",
+  "version": "1.0.0",
+  "description": "Utility functions for lnd-boilerplate",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "bun test",
+    "test:watch": "bun test --watch",
+    "test:coverage": "bun test --coverage"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "flexsearch": "^0.7.31",
+    "next-sitemap": "^4.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/flexsearch": "^0.7.0",
+    "bun-types": "latest"
+  }
+}
