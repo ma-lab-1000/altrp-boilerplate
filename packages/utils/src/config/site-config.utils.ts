@@ -23,6 +23,7 @@ export class SiteConfigManager {
   private findConfigFile(): string {
     const possiblePaths = [
       'site.config.json',
+      'apps/landing/site.config.json',
       'config/site.config.json',
       'src/config/site.config.json',
       'packages/utils/src/config/site.config.json'

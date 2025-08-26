@@ -1,5 +1,5 @@
 {
-  "$schema": "./packages/utils/src/config/site-config.schema.json",
+  "$schema": "../../packages/utils/src/config/site-config.schema.json",
   "site": {
     "name": "LND Boilerplate",
     "shortName": "LND",
