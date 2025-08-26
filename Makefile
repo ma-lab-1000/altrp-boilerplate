@@ -1,6 +1,6 @@
 # LND Boilerplate Makefile
 
-.PHONY: help dev-help dev-test dev-build dev-clean dev-validate dev-lint dev-update lint utils-test sync-main reset-develop push-develop workspace-status workspace-commit
+.PHONY: help dev-help dev-test dev-build dev-clean dev-validate dev-lint dev-update lint utils-test sync-main reset-develop push-develop workspace-status workspace-commit branch-delete branches
 
 help:
 	@echo "LND Boilerplate - Available Commands:"
@@ -23,6 +23,8 @@ help:
 	@echo "  reset-develop     Reset develop to remote and merge main"
 	@echo "  push-develop      Push develop branch"
 	@echo "  workspace-status  Show git status"
+	@echo "  branch-delete     Delete branch locally and on origin (use BRANCH=name)"
+	@echo "  branches          List local and remote branches"
 	@echo ""
 	@echo "For detailed dev-agent commands, run: make dev-help"
 
@@ -91,6 +93,19 @@ workspace-commit:
 	@git add Makefile
 	@git commit -m "chore: add workspace sync targets to Makefile" || echo "ℹ️ Nothing to commit"
 	@echo "✅ Commit step done"
+
+# Git branch utilities
+branch-delete:
+	@if [ -z "$(BRANCH)" ]; then echo "❌ Please provide BRANCH=name"; exit 1; fi
+	@echo "🗑️ Deleting local branch '$(BRANCH)'..."
+	@git branch -D $(BRANCH) 2>/dev/null || echo "ℹ️ Local branch '$(BRANCH)' not found"
+	@echo "🗑️ Deleting remote branch 'origin/$(BRANCH)'..."
+	@git push origin --delete $(BRANCH) 2>/dev/null || echo "ℹ️ Remote branch 'origin/$(BRANCH)' not found"
+	@echo "✅ Done"
+
+branches:
+	@echo "🌿 Branches (local and remote):"
+	@git branch -a
 
 dev-update:
 	@echo "🔄 Updating dev-agent subtree..."
