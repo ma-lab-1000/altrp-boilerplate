@@ -717,6 +717,38 @@ async function main(): Promise<void> {
       });
 
     goalCommand
+      .command("close")
+      .description("Close goal with full protocol (milestone update, GitHub sync, branch cleanup)")
+      .argument("<goal-id>", "Goal ID")
+      .action(async (goalId: string) => {
+        try {
+          // Load environment configuration first
+          loadDatabaseConfig();
+          
+          await initializeServices();
+          const result = await workflowService.executeTaskCloseProtocol(goalId);
+
+          if (result.success) {
+            console.log("✅", result.message);
+            if (result.data?.protocolExecuted) {
+              console.log("🔧 Full protocol executed: milestone updated, GitHub synced, branch cleaned up");
+            }
+          } else {
+            console.error("❌", result.message);
+            if (result.error) {
+              console.error("Error:", result.error);
+            }
+            process.exit(1);
+          }
+        } catch (error) {
+          console.error("❌", `Failed to close goal ${goalId}:`, error);
+          process.exit(1);
+        } finally {
+          storageService.close();
+        }
+      });
+
+    goalCommand
       .command("validate")
       .description("Validate a goal")
       .argument("<goal-id>", "Goal ID to validate")
@@ -1819,6 +1851,9 @@ async function main(): Promise<void> {
         );
         console.log(
           "  dev/src/index.ts goal complete <goal-id> - Mark goal as done",
+        );
+        console.log(
+          "  dev/src/index.ts goal close <goal-id>    - Close goal with full protocol",
         );
         console.log(
           "  dev/src/index.ts goal list               - List all goals",

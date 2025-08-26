@@ -792,6 +792,83 @@ export class WorkflowService {
   }
 
   /**
+   * Execute full protocol for closing a task
+   * This includes: milestone update, GitHub sync, and proper status management
+   */
+  async executeTaskCloseProtocol(goalId: string): Promise<CommandResult> {
+    try {
+      logger.info(`Executing task close protocol for goal: ${goalId}`);
+
+      const goal = await this.storage.getGoal(goalId);
+      if (!goal) {
+        return {
+          success: false,
+          message: `Goal ${goalId} not found`,
+          error: "Goal not found",
+        };
+      }
+
+      // Step 1: Update milestone to "done" in database
+      await this.storage.updateGoal(goalId, {
+        status: "done",
+        completed_at: new Date().toISOString(),
+      });
+      logger.info(`Updated goal ${goalId} status to done in database`);
+
+      // Step 2: Sync to GitHub (this will update issue status and milestone)
+      if (this.github.isConfigured()) {
+        const updatedGoal = await this.storage.getGoal(goalId);
+        if (updatedGoal) {
+          await this.github.syncGoalStatusToGitHub(updatedGoal);
+          logger.info(`Synced goal ${goalId} to GitHub with proper milestone`);
+        }
+      } else {
+        logger.warn("GitHub service not configured, skipping GitHub sync");
+      }
+
+      // Step 3: Clean up feature branch if exists
+      if (goal.branch_name) {
+        try {
+          // Switch to develop branch first
+          const developBranch = this.context.config.branches.develop;
+          await this.git.checkoutBranch(developBranch);
+          logger.info(`Switched to ${developBranch} branch`);
+
+          // Delete the feature branch locally
+          await this.git.deleteBranch(goal.branch_name);
+          logger.info(`Deleted local feature branch: ${goal.branch_name}`);
+
+          // Clear branch name from goal
+          await this.storage.updateGoal(goalId, {
+            branch_name: undefined,
+          });
+        } catch (error) {
+          logger.warn(`Failed to clean up feature branch: ${goal.branch_name}`, error as Error);
+        }
+      }
+
+      logger.success(`Task close protocol completed for goal ${goalId}`);
+      return {
+        success: true,
+        message: `Task close protocol completed for goal ${goalId}`,
+        data: {
+          goalId,
+          status: "done",
+          completedAt: new Date().toISOString(),
+          protocolExecuted: true,
+        },
+      };
+    } catch (error) {
+      logger.error(`Failed to execute task close protocol for goal ${goalId}`, error as Error);
+      return {
+        success: false,
+        message: `Failed to execute task close protocol for goal ${goalId}`,
+        error: error instanceof Error ? error.message : String(error),
+      };
+    }
+  }
+
+  /**
    * Check pull request status and update goal if merged
    */
   async checkPullRequestStatus(goalId: string): Promise<CommandResult> {

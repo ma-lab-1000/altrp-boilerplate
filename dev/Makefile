@@ -18,11 +18,12 @@ help:
 	@echo "Dev Agent Commands:"
 	@echo "  project-init    Show project initialization usage"
 	@echo "  project-init-custom Initialize new Dev Agent project (PATH='path')"
-	@echo "  dev-init        Initialize Dev Agent project
+	@echo "  dev-init        Initialize Dev Agent project"
 	@echo "  dev-sync        Sync with GitHub (HARD ALGORITHM)"
 	@echo "  dev-goals-list  List all goals"
 	@echo "  dev-goals-create Create new goal (TITLE='title')"
 	@echo "  dev-goals-update Update goal (ID='goal-id' STATUS='status')"
+	@echo "  dev-goals-close  Close goal with full protocol (ID='goal-id')"
 	@echo "  dev-goals-delete Delete goal (ID='goal-id')"
 	@echo "  dev-config-set  Set config (KEY='key' VALUE='value')"
 	@echo "  dev-config-get  Get config (KEY='key')"
@@ -124,6 +125,10 @@ dev-goals-delete:
 dev-goals-update:
 	@echo "Updating goal (updated)..."
 	@bun run src/index.ts goal update-status "$(ID)" "$(STATUS)"
+
+dev-goals-close:
+	@echo "Closing goal with full protocol..."
+	@bun run src/index.ts goal close "$(ID)"
 
 dev-config-set:
 	@echo "Setting configuration..."
