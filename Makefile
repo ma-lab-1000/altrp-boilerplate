@@ -1,6 +1,6 @@
 # LND Boilerplate Makefile
 
-.PHONY: help dev-help dev-test dev-build dev-clean dev-validate dev-update
+.PHONY: help dev-help dev-test dev-build dev-clean dev-validate dev-lint dev-update lint utils-test
 
 help:
 	@echo "LND Boilerplate - Available Commands:"
@@ -11,7 +11,12 @@ help:
 	@echo "  dev-build     Build dev-agent project"
 	@echo "  dev-clean     Clean dev-agent build artifacts"
 	@echo "  dev-validate  Validate dev-agent project structure"
+	@echo "  dev-lint      Run dev-agent linting"
 	@echo "  dev-update    Update dev-agent subtree from remote"
+	@echo ""
+	@echo "Project Commands:"
+	@echo "  lint          Run linting for apps/landing"
+	@echo "  utils-test    Run tests for packages/utils"
 	@echo ""
 	@echo "For detailed dev-agent commands, run: make dev-help"
 
@@ -30,6 +35,18 @@ dev-clean:
 
 dev-validate:
 	@cd dev && make validate
+
+dev-lint:
+	@cd dev && bun run lint
+
+# Project Commands
+lint:
+	@echo "🔍 Running linting for apps/landing..."
+	@bun run --cwd apps/landing lint
+
+utils-test:
+	@echo "🧪 Running tests for packages/utils..."
+	@bun run --cwd packages/utils test
 
 dev-update:
 	@echo "🔄 Updating dev-agent subtree..."

@@ -2,8 +2,6 @@ import { Hero } from '@lnd/ui/components/marketing'
 import { FeatureGrid } from '@lnd/ui/components/marketing'
 import { PricingTable } from '@lnd/ui/components/marketing'
 import { PublicLayout } from '@lnd/ui/templates/PublicLayout'
-import { Header } from '@lnd/ui/components/navigation'
-import { Footer } from '@lnd/ui/components/navigation'
 import { generateMetadata } from '@lnd/utils/seo/metadata'
 import type { Viewport } from 'next'
 

@@ -93,7 +93,7 @@ export default function ContactPage() {
     <PublicLayout>
       <Hero
         title="Get in Touch"
-        subtitle="We're Here to Help"
+        subtitle="We&apos;re Here to Help"
         description="Have questions about LND Boilerplate? Need help with implementation? Want to contribute? We'd love to hear from you."
         ctaButtons={[
           { text: 'View Documentation', variant: 'default' },
@@ -112,7 +112,7 @@ export default function ContactPage() {
               Contact Methods
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Choose the best way to reach us based on your needs. We're here to help you succeed with LND Boilerplate.
+              Choose the best way to reach us based on your needs. We&apos;re here to help you succeed with LND Boilerplate.
             </p>
           </div>
 
@@ -151,7 +151,7 @@ export default function ContactPage() {
               Frequently Asked Questions
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Find quick answers to common questions about LND Boilerplate. Can't find what you're looking for? Get in touch!
+              Find quick answers to common questions about LND Boilerplate. Can&apos;t find what you&apos;re looking for? Get in touch!
             </p>
           </div>
 

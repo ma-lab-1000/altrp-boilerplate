@@ -150,7 +150,9 @@ src/utils/
 ```
 tests/
 ├── config/                          # Configuration tests
-│   └── config.test.ts              # Configuration tests
+│   ├── config.test.ts              # Configuration tests
+│   └── validators/                 # Configuration validator tests
+│       └── ConfigValidator.test.ts # Configuration validator tests
 │
 ├── core/                            # Core system tests
 │   ├── aid-generator.test.ts       # AID generator tests

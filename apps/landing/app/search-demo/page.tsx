@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { CollectionLayout } from '@lnd/ui/templates/CollectionLayout'
 import { ProductList } from '@lnd/ui/components/ecommerce'
-import { simpleSearch, createSearchSuggestions, SearchDocument } from '@lnd/utils/search/simple'
+import { simpleSearch, SearchDocument } from '@lnd/utils/search/simple'
 
 // Demo content for search testing
 const demoDocuments: SearchDocument[] = [
@@ -133,7 +133,7 @@ export default function SearchDemoPage() {
           {searchQuery && (
             <div className="mb-4">
               <h3 className="text-lg font-semibold text-gray-700">
-                Search Results for "{searchQuery}"
+                Search Results for &quot;{searchQuery}&quot;
               </h3>
               <p className="text-sm text-gray-500">
                 Found {searchResults.length} result{searchResults.length !== 1 ? 's' : ''}
@@ -160,7 +160,7 @@ export default function SearchDemoPage() {
             />
           ) : searchQuery && !isSearching ? (
             <div className="text-center py-12">
-              <p className="text-gray-500">No results found for "{searchQuery}"</p>
+              <p className="text-gray-500">No results found for &quot;{searchQuery}&quot;</p>
               <p className="text-sm text-gray-400 mt-2">Try different keywords or check spelling</p>
             </div>
           ) : null}

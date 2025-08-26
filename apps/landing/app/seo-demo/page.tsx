@@ -21,7 +21,7 @@ export default function SEODemoPage() {
     tags: ['tutorial', 'guide', 'development']
   })
 
-  const [siteConfig, setSiteConfig] = useState({
+  const [siteConfig] = useState({
     siteName: 'My Awesome Site',
     siteUrl: 'https://mysite.com',
     defaultLocale: 'en_US'
@@ -134,7 +134,7 @@ export default function SEODemoPage() {
                 value={JSON.stringify(content, null, 2)}
                 onChange={(e) => {
                   try {
-                    const newContent = JSON.parse(e.target.value)
+                    JSON.parse(e.target.value)
                     // Update sitemap when content changes
                   } catch {}
                 }}

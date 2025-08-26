@@ -67,7 +67,7 @@ export default function AboutPage() {
       <Hero
         title="About LND Boilerplate"
         subtitle="Building the Future of Landing Pages"
-        description="We're on a mission to democratize landing page development by providing developers with powerful, flexible, and easy-to-use tools that accelerate their workflow."
+        description="We&apos;re on a mission to democratize landing page development by providing developers with powerful, flexible, and easy-to-use tools that accelerate their workflow."
         ctaButtons={[
           { text: 'Get Started', variant: 'default' },
           { text: 'View Documentation', variant: 'outline' }
@@ -155,8 +155,8 @@ export default function AboutPage() {
               
               <p>
                 Today, LND Boilerplate is used by thousands of developers to create landing 
-                pages for startups, agencies, and enterprises. We're proud of what we've built 
-                and excited about the future we're helping to create.
+                pages for startups, agencies, and enterprises. We&apos;re proud of what we&apos;ve built 
+                and excited about the future we&apos;re helping to create.
               </p>
             </div>
           </div>

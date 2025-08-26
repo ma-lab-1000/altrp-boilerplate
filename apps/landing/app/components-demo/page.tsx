@@ -1,10 +1,10 @@
 'use client'
 
 import { PublicLayout } from '@lnd/ui/templates'
-import { Hero, FeatureGrid } from '@lnd/ui/components/marketing'
+import { Hero } from '@lnd/ui/components/marketing'
 import { Sidebar, TableOfContents, PreviousNext } from '@lnd/ui/components/navigation'
 import { Accordion, Form } from '@lnd/ui/components/ui'
-import { Card, Heading, Text } from '@lnd/ui/primitives'
+import { Card, Heading } from '@lnd/ui/primitives'
 
 export default function ComponentsDemoPage() {
   // Данные для Sidebar
@@ -135,7 +135,7 @@ export default function ComponentsDemoPage() {
     image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=200&h=200&fit=crop'
   }
 
-  const handleFormSubmit = async (data: Record<string, any>) => {
+  const handleFormSubmit = async (data: Record<string, unknown>) => {
     console.log('Form submitted:', data)
     // Здесь будет логика отправки формы
     alert('Форма отправлена! Проверьте консоль для деталей.')

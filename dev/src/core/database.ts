@@ -13,6 +13,15 @@ import { logger } from "../utils/logger.js";
 
 import { getMigrationVersions, getMigrationSQL } from "./schema.js";
 
+// Helper functions for Bun operations
+const bunWrite = async (path: string, data: string | ArrayBuffer): Promise<number> => {
+  return (globalThis as any).Bun.write(path, data);
+};
+
+const bunFile = (path: string) => {
+  return (globalThis as any).Bun.file(path);
+};
+
 /**
  * Database Manager class
  * 
@@ -61,7 +70,7 @@ export class DatabaseManager {
         const dir = this.dbPath.substring(0, this.dbPath.lastIndexOf('/'));
         if (dir) {
           try {
-            await Bun.write(dir + '/.gitkeep', '');
+            await bunWrite(dir + '/.gitkeep', '');
           } catch {
             // Directory might already exist, continue
           }
@@ -265,9 +274,9 @@ export class DatabaseManager {
       this.db.close();
       
       // Copy the database file
-      const sourceFile = Bun.file(this.dbPath);
+      const sourceFile = bunFile(this.dbPath);
       const sourceBuffer = await sourceFile.arrayBuffer();
-      await Bun.write(backupPath, sourceBuffer);
+      await bunWrite(backupPath, sourceBuffer);
       
       // Reopen the database
       this.db = new Database(this.dbPath);
@@ -297,7 +306,7 @@ export class DatabaseManager {
       ).all() as { name: string }[];
       
       const tableNames = tables.map(t => t.name);
-      const size = Bun.file(this.dbPath).size || 0;
+      const size = bunFile(this.dbPath).size || 0;
       
       return { tables: tableNames, size };
     } catch {

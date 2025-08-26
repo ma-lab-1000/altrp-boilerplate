@@ -61,7 +61,7 @@ export default function GettingStartedPage() {
           and SEO-optimized landing pages.
         </p>
 
-        <h2>What You'll Learn</h2>
+        <h2>What You&apos;ll Learn</h2>
         <ul>
           <li>Setting up the development environment</li>
           <li>Understanding the monorepo structure</li>
@@ -137,7 +137,7 @@ bun run dev`}</code>
 
         <h2>Creating Your First Page</h2>
         <p>
-          Let's create a simple page using our component library:
+          Let&apos;s create a simple page using our component library:
         </p>
         
         <pre className="bg-gray-100 p-4 rounded-lg overflow-x-auto">
@@ -232,7 +232,7 @@ This is the content of my blog post written in **Markdown**.
             </div>
             <div className="ml-3">
               <p className="text-sm text-blue-700">
-                <strong>Pro Tip:</strong> Use the development server's hot reload feature to see 
+                <strong>Pro Tip:</strong> Use the development server&apos;s hot reload feature to see 
                 your changes instantly. The server is already running at <code>http://localhost:3000</code>.
               </p>
             </div>
@@ -240,7 +240,7 @@ This is the content of my blog post written in **Markdown**.
         </div>
 
         <p>
-          Congratulations! You're now ready to start building amazing landing pages with 
+          Congratulations! You&apos;re now ready to start building amazing landing pages with 
           LND Boilerplate. Happy coding! 🚀
         </p>
       </div>

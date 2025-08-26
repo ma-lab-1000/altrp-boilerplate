@@ -253,7 +253,7 @@ export function BlogPostTemplate({
         <ul>
           <li>Use Tailwind CSS utility classes</li>
           <li>Leverage the <code>cn</code> utility for conditional classes</li>
-          <li>Follow the design system's spacing and color scales</li>
+          <li>Follow the design system&apos;s spacing and color scales</li>
         </ul>
         
         <h3>4. Accessibility</h3>
@@ -293,7 +293,7 @@ import { CustomButton, FeatureCard } from '@lnd/ui/components/custom'`}</code>
 
         <h2>Example: Complete Custom Component</h2>
         <p>
-          Here's a complete example of a custom testimonial component:
+          Here&apos;s a complete example of a custom testimonial component:
         </p>
         
         <pre className="bg-gray-100 p-4 rounded-lg overflow-x-auto">
