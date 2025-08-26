@@ -6,6 +6,7 @@ Automatically determines the current task (either from a user request or an auto
 ## Steps
 
 **Step 1: Task Acquisition & Context Initialization**
+   - The .env and database.db files are located in the external storage directory, not in the project folder.
    - **If a specific user request is provided:** Proceed directly to Step 2.
    - **If no request is provided (autonomous mode):**
      1.  **Check for Active Work:** Query the DB for a task with `in_progress` status. If found, check out its associated branch and resume work.

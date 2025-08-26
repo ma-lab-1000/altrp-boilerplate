@@ -5,6 +5,7 @@ Systematically develop new functionality, from selecting a task in the database 
 
 ## Steps
 1. **Determine Task for Work**
+   - The .env and database.db files are located in the external storage directory, not in the project folder.
    - **Start a new task:** Automatically create a `feature/g-XXXXXX-description` branch, update the selected `todo` task's status to `in_progress`, **and change its milestone on GitHub to "In Progress"**.
 
 2.  **Implement & Document**

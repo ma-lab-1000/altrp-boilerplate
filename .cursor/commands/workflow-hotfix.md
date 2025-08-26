@@ -5,6 +5,7 @@ A rapid fix for a critical bug in production, followed by integration into `main
 
 ## Steps
 1.  **Initialize Hotfix**
+   - The .env and database.db files are located in the external storage directory, not in the project folder.
    - **Create a `hotfix/g-XXXXXX` branch from `main`**.
    - Create a task in the DB for tracking.
 
