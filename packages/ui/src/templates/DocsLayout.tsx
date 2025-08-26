@@ -1,6 +1,8 @@
+'use client'
+
 import React, { useState, useEffect } from 'react'
 import { PublicLayout } from './PublicLayout'
-import { getSiteConfig } from '@lnd/utils/config/site-config.utils'
+import { useSiteConfig } from '../providers/SiteConfigProvider'
 import { DocumentationConfig } from '@lnd/utils/config/site-config.types'
 
 /**
@@ -43,6 +45,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
   showHeader = true,
   tableOfContents = []
 }) => {
+  const { config: siteConfig, isLoading, error } = useSiteConfig()
   const [config, setConfig] = useState<DocumentationConfig | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -50,35 +53,36 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
 
   // Load configuration
   useEffect(() => {
-    try {
-      const siteConfig = getSiteConfig()
-      const docConfig = siteConfig.getFeatureConfig('documentation')
-      setConfig(docConfig)
-    } catch (error) {
-      console.warn('Failed to load documentation config:', error)
-      // Fallback configuration
-      setConfig({
-        enabled: true,
-        path: '/docs',
-        navigation: {
+    if (siteConfig && !isLoading) {
+      try {
+        const docConfig = siteConfig.getFeatureConfig('documentation')
+        setConfig(docConfig)
+      } catch (error) {
+        console.warn('Failed to load documentation config:', error)
+        // Fallback configuration
+        setConfig({
           enabled: true,
-          position: 'left',
-          showProgress: true,
-          showBreadcrumbs: true
-        },
-        search: {
-          enabled: true,
-          provider: 'local',
-          placeholder: 'Search documentation...'
-        },
-        layout: {
-          sidebar: true,
-          toc: true,
-          footer: true
-        }
-      })
+          path: '/docs',
+          navigation: {
+            enabled: true,
+            position: 'left',
+            showProgress: true,
+            showBreadcrumbs: true
+          },
+          search: {
+            enabled: true,
+            provider: 'local',
+            placeholder: 'Search documentation...'
+          },
+          layout: {
+            sidebar: true,
+            toc: true,
+            footer: true
+          }
+        })
+      }
     }
-  }, [])
+  }, [siteConfig, isLoading])
 
   // Reading progress calculation
   useEffect(() => {
@@ -95,11 +99,24 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
     return () => window.removeEventListener('scroll', updateProgress)
   }, [config])
 
-  if (!config) {
+  if (isLoading || !config) {
     return (
       <PublicLayout>
         <div className="min-h-screen flex items-center justify-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+        </div>
+      </PublicLayout>
+    )
+  }
+
+  if (error) {
+    return (
+      <PublicLayout>
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <h2 className="text-xl font-semibold text-red-600 mb-2">Configuration Error</h2>
+            <p className="text-gray-600">{error}</p>
+          </div>
         </div>
       </PublicLayout>
     )

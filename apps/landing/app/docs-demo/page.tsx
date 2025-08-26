@@ -1,4 +1,5 @@
 import { DocsLayout } from '@lnd/ui/templates'
+import { SiteConfigProvider } from '@lnd/ui/providers/SiteConfigProvider'
 import { generateMetadata } from '@lnd/utils/seo/metadata'
 import type { Viewport } from 'next'
 
@@ -49,11 +50,12 @@ export default function DocsDemoPage() {
   ]
 
   return (
-    <DocsLayout 
-      title="Documentation Template Demo"
-      description="Experience the power of the DocsLayout template with configurable navigation, search, and reading progress features."
-      tableOfContents={tableOfContents}
-    >
+    <SiteConfigProvider>
+      <DocsLayout 
+        title="Documentation Template Demo"
+        description="Experience the power of the DocsLayout template with configurable navigation, search, and reading progress features."
+        tableOfContents={tableOfContents}
+      >
       <div className="max-w-4xl mx-auto">
         <div className="prose prose-lg">
           <h2 id="overview">Overview</h2>
@@ -256,6 +258,7 @@ export default function DocsDemoPage() {
           </div>
         </div>
       </div>
-    </DocsLayout>
+      </DocsLayout>
+    </SiteConfigProvider>
   )
 }
