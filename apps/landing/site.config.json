@@ -311,6 +311,26 @@
       "enabled": true,
       "offlineSupport": true,
       "installPrompt": true
+    },
+    "documentation": {
+      "enabled": true,
+      "path": "/docs",
+      "navigation": {
+        "enabled": true,
+        "position": "left",
+        "showProgress": true,
+        "showBreadcrumbs": true
+      },
+      "search": {
+        "enabled": true,
+        "provider": "local",
+        "placeholder": "Search documentation..."
+      },
+      "layout": {
+        "sidebar": true,
+        "toc": true,
+        "footer": true
+      }
     }
   },
   "environment": {

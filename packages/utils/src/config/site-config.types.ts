@@ -222,6 +222,7 @@ export interface FeaturesConfig {
   analytics: AnalyticsConfig;
   i18n: I18nConfig;
   pwa: PWAConfig;
+  documentation: DocumentationConfig;
 }
 
 export interface BlogConfig {
@@ -257,6 +258,27 @@ export interface PWAConfig {
   enabled: boolean;
   offlineSupport: boolean;
   installPrompt: boolean;
+}
+
+export interface DocumentationConfig {
+  enabled: boolean;
+  path: string;
+  navigation: {
+    enabled: boolean;
+    position: 'left' | 'right' | 'top';
+    showProgress: boolean;
+    showBreadcrumbs: boolean;
+  };
+  search: {
+    enabled: boolean;
+    provider: 'local' | 'algolia';
+    placeholder: string;
+  };
+  layout: {
+    sidebar: boolean;
+    toc: boolean;
+    footer: boolean;
+  };
 }
 
 export interface EnvironmentConfig {
@@ -334,7 +356,7 @@ export function isValidEnvironment(env: string): env is Environment {
 }
 
 export function isValidFeatureKey(key: string): key is FeatureKey {
-  return ["blog", "search", "analytics", "i18n", "pwa"].includes(key);
+  return ["blog", "search", "analytics", "i18n", "pwa", "documentation"].includes(key);
 }
 
 export function isValidDeploymentProvider(provider: string): provider is DeploymentProvider {

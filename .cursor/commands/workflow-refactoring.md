@@ -5,6 +5,7 @@ Systematically improve existing code with a focus on safety through testing and 
 
 ## Steps
 1.  **Preparation & Analysis**
+   - The .env and database.db files are located in the external storage directory, not in the project folder.
    - **Start task:** Automatically create a `refactor/g-XXXXXX-description` branch and update the task's status to `in_progress`.
 
 2.  **Iterative Refactoring**
