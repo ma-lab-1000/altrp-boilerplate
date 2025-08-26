@@ -4,7 +4,7 @@
 
 import { readFileSync, existsSync } from 'fs';
 import { join, resolve } from 'path';
-import { SiteConfig, Environment, FeatureKey, DeploymentProvider, isSiteConfig, isValidEnvironment, isValidFeatureKey, isValidDeploymentProvider } from './site-config.types.js';
+import { SiteConfig, Environment, FeatureKey, DeploymentProvider, isSiteConfig, isValidEnvironment, isValidFeatureKey, isValidDeploymentProvider } from './site-config.types';
 
 /**
  * Site configuration manager
