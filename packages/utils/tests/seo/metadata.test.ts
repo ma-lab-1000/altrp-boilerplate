@@ -254,8 +254,8 @@ describe('SEO Metadata Utils', () => {
     it('should use default site values', () => {
       const result = generateStructuredData(mockSEOData)
 
-      expect(result.publisher.name).toBe('LND Boilerplate')
-      expect(result.publisher.logo.url).toBe('https://lnd-boilerplate.com/logo.png')
+      expect(result.publisher?.name).toBe('LND Boilerplate')
+      expect(result.publisher?.logo?.url).toBe('https://lnd-boilerplate.com/logo.png')
     })
   })
 

@@ -274,7 +274,7 @@ This is the content.`)
     }))
 
     // Mock global fetch
-    global.fetch = mockFetch
+    global.fetch = mockFetch as any
 
     it('should parse multiple MDX files', async () => {
       const files = ['/path/to/file1.mdx', '/path/to/file2.mdx']
@@ -307,7 +307,7 @@ This is the content.`)
 
     it('should handle fetch errors gracefully', async () => {
       const mockFetchError = mock(() => Promise.reject(new Error('Network error')))
-      global.fetch = mockFetchError
+      global.fetch = mockFetchError as any
 
       const files = ['/path/to/error.mdx']
       
@@ -348,7 +348,7 @@ title: Test Article
 This is the content.`)
         })
       })
-      global.fetch = mockFetchMixed
+      global.fetch = mockFetchMixed as any
 
       const files = ['/path/to/success.mdx', '/path/to/error.mdx', '/path/to/another-success.mdx']
       
