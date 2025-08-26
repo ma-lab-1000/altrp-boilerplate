@@ -2,6 +2,7 @@
 
 ## Overview
 An interactive startup and readiness check for the Architect, beginning with environment verification and the selection of the primary protocol.
+The .env and database.db files are located in the external storage directory, not in the project folder.
 
 ## Steps
 1.  **Environment Verification (Pre-flight Check)**

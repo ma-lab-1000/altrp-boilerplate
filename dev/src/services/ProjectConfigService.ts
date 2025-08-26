@@ -63,20 +63,21 @@ export class ProjectConfigService {
   private configPath: string;
 
   constructor() {
-    this.configPath = join(process.cwd(), "config.json");
+    this.configPath = join(process.cwd(), "..", "config.json");
   }
 
   /**
    * Load project configuration from config.json
    */
   async loadConfig(): Promise<ProjectConfig> {
-    if (this.config) {
-      return this.config;
-    }
+    // Always reload config to ensure fresh data
+    this.config = null;
 
     try {
-      const configContent = await readFile(this.configPath, "utf-8");
-      this.config = JSON.parse(configContent) as ProjectConfig;
+      const raw = await readFile(this.configPath, "utf-8");
+      // Sanitize potential BOM and invisible characters to avoid JSON.parse errors
+      const sanitized = raw.replace(/^\uFEFF/, "").trim();
+      this.config = JSON.parse(sanitized) as ProjectConfig;
       
       logger.info("Project configuration loaded from config.json");
       return this.config;

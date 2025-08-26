@@ -93,6 +93,11 @@ export class AIDGenerator {
         continue;
       }
 
+      // Check if ID is too similar to existing IDs in session
+      if (this.isSimilarToExisting(generatedId)) {
+        continue;
+      }
+
       // Check uniqueness in external storage (database, etc.)
       const isUnique = await checkUniqueness(generatedId);
       if (isUnique) {
@@ -198,6 +203,39 @@ export class AIDGenerator {
    */
   isUniqueInSession(aid: string): boolean {
     return !this.usedIds.has(aid);
+  }
+
+  /**
+   * Check if two AIDs are too similar (differ by only 1-2 characters)
+   */
+  private isTooSimilar(aid1: string, aid2: string): boolean {
+    if (aid1.length !== aid2.length) {
+      return false;
+    }
+
+    let differences = 0;
+    for (let i = 0; i < aid1.length; i++) {
+      if (aid1[i] !== aid2[i]) {
+        differences++;
+        if (differences > 2) {
+          return false; // More than 2 differences, not too similar
+        }
+      }
+    }
+
+    return differences <= 2 && differences > 0; // 1-2 differences = too similar
+  }
+
+  /**
+   * Check if generated ID is too similar to any existing ID in session
+   */
+  private isSimilarToExisting(generatedId: string): boolean {
+    for (const existingId of this.usedIds) {
+      if (this.isTooSimilar(generatedId, existingId)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**

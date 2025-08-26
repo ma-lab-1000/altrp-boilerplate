@@ -33,29 +33,33 @@ export class DatabaseManager {
   private db: Database | null = null;
 
   constructor(dbPath?: string) {
-    // Use passed path or try to load from config.json first
-    let finalPath = dbPath;
-    
+    // Resolution order: explicit arg -> ENV -> config.json -> in-memory
+    let finalPath = dbPath || process.env.DEV_AGENT_DB_PATH || process.env.DATABASE_PATH;
+
+    // Only read config.json if no explicit path was provided
     if (!finalPath) {
       try {
         const { readFileSync, existsSync } = require("fs");
-        if (existsSync('config.json')) {
-          const config = JSON.parse(readFileSync('config.json', 'utf8'));
+        if (existsSync('../config.json')) {
+          const raw = readFileSync('../config.json', 'utf8');
+          const content = raw.replace(/^\uFEFF/, '').trim();
+          const config = JSON.parse(content);
           if (config.storage?.database?.path) {
-            finalPath = config.storage.database.path;
+            finalPath = config.storage.database.path as string;
           }
         }
       } catch {
-        // Don't fall back to configManager to avoid database initialization
-        // Just use in-memory as default
+        // Ignore and continue
       }
     }
-    
+
+    // Use path as provided (Windows paths with backslashes are supported)
+
     // Ensure we always have a valid path
     if (!finalPath) {
       finalPath = ":memory:"; // Default to in-memory database
     }
-    
+
     this.dbPath = finalPath;
     logger.info(`DatabaseManager initialized with path: ${this.dbPath}`);
   }
@@ -65,19 +69,32 @@ export class DatabaseManager {
    */
   async initialize(): Promise<void> {
     try {
-      // Only create directories for file-based databases, not in-memory
-      if (!this.dbPath.startsWith(':') && this.dbPath.includes('/')) {
-        const dir = this.dbPath.substring(0, this.dbPath.lastIndexOf('/'));
-        if (dir) {
-          try {
-            await bunWrite(dir + '/.gitkeep', '');
-          } catch {
-            // Directory might already exist, continue
+      // Build candidate paths: original and alias (X:\) if matches mapping rule
+      const candidates: string[] = [this.dbPath];
+      const sharedPrefix = 'G\\Общие диски\\Altrp\\';
+      const aliasPrefix = 'X\\';
+      if (this.dbPath.startsWith(sharedPrefix)) {
+        candidates.push(aliasPrefix + this.dbPath.substring(sharedPrefix.length));
+      }
+
+      let opened = false;
+      for (const candidate of candidates) {
+        try {
+          this.db = new Database(candidate);
+          if (candidate !== this.dbPath) {
+            logger.info(`Opened database via alias path: ${candidate}`);
+            this.dbPath = candidate;
           }
+          opened = true;
+          break;
+        } catch {
+          // try next
         }
       }
 
-      this.db = new Database(this.dbPath);
+      if (!opened) {
+        throw new Error(`Unable to open database file: tried [${candidates.join(' | ')}]`);
+      }
       
       // Run migrations
       await this.runMigrations();

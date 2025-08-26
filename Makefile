@@ -200,3 +200,18 @@ help:
 	@echo "    security-audit   - Run security audit"
 	@echo "    clean-all        - Clean all files"
 	@echo "    help             - Show this help"
+
+# Windows drive mapping utilities
+.PHONY: map-x unmap-x dev-goals-list-x
+
+map-x:
+	@echo "🔗 Mapping X: to 'G:\\Общие диски\\Altrp' ..."
+	@powershell -NoProfile -Command "if (-not (Get-PSDrive -Name X -ErrorAction SilentlyContinue)) { subst X: 'G:\\Общие диски\\Altrp'; Write-Host '✅ X: mapped' } else { Write-Host 'ℹ️  X: already mapped' }"
+
+unmap-x:
+	@echo "🧹 Unmapping drive X: ..."
+	@powershell -NoProfile -Command "if (Get-PSDrive -Name X -ErrorAction SilentlyContinue) { subst X: /D; Write-Host '✅ X: unmapped' } else { Write-Host 'ℹ️  X: not mapped' }"
+
+dev-goals-list-x:
+	@echo "📋 Listing goals using X:\\lnd-boilerplate\\database.db ..."
+	@powershell -NoProfile -Command "$$env:DATABASE_PATH='X:\\lnd-boilerplate\\database.db'; make -C dev dev-goals-list | Out-String | Write-Host"

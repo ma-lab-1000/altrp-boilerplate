@@ -12,8 +12,9 @@ import { join } from "path";
  * Load environment variables from database.env file
  */
 export function loadDatabaseConfig(): void {
-  // Load from .env file in current working directory
-  const envFile = join(process.cwd(), ".env");
+  // Support external .env via ENV_FILE, fallback to CWD/.env
+  const externalEnv = process.env.ENV_FILE;
+  const envFile = externalEnv && existsSync(externalEnv) ? externalEnv : join(process.cwd(), ".env");
   
   if (existsSync(envFile)) {
     try {
@@ -36,7 +37,8 @@ export function loadDatabaseConfig(): void {
       
       if (process.env.DATABASE_PATH) {
         process.env.DEV_AGENT_DB_PATH = process.env.DATABASE_PATH;
-        console.log(`✅ Database path loaded from .env: ${process.env.DATABASE_PATH}`);
+        const sourceLabel = externalEnv ? externalEnv : ".env";
+        console.log(`✅ Database path loaded from ${sourceLabel}: ${process.env.DATABASE_PATH}`);
       } else {
         console.log("⚠️  DATABASE_PATH not found in .env");
       }

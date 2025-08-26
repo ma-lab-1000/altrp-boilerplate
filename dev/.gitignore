@@ -1,5 +1,7 @@
 # Dev Agent specific files
 # Note: dev/ folder is not ignored because dev-agent is used as subtree
+database.db
+.database.db
 .dev-agent.db
 .dev-agent.db-wal
 .dev-agent.db-shm

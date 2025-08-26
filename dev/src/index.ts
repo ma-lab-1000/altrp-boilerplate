@@ -140,7 +140,8 @@ async function loadProjectConfig(): Promise<Config | null> {
       return null;
     }
 
-    const configContent = readFileSync(configPath, "utf-8");
+    const rawContent = readFileSync(configPath, "utf-8");
+    const configContent = rawContent.replace(/^\uFEFF/, "").trim();
     const config = JSON.parse(configContent);
 
     // Validate configuration with ZOD
@@ -156,7 +157,8 @@ async function loadProjectConfig(): Promise<Config | null> {
   } catch (error) {
     console.log("⚠️  Warning: Could not load config.json configuration");
     console.log(`   Error: ${error}`);
-    return null;
+    // Don't fallback to in-memory, fail explicitly
+    throw error;
   }
 }
 

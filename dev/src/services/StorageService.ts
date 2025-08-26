@@ -27,6 +27,7 @@ export class StorageService {
   private dbPath: string;
 
   constructor(dbPath?: string) {
+    console.log(`🔧 StorageService constructor called with dbPath: ${dbPath}`);
     // Use passed path or try to load from environment variable
     if (dbPath) {
       this.dbPath = dbPath;
@@ -36,13 +37,17 @@ export class StorageService {
       // Try to load from config.json
       try {
         const configPath = join(process.cwd(), "config.json");
+        console.log(`🔍 Looking for config at: ${configPath}`);
         if (existsSync(configPath)) {
+          console.log(`✅ Config file found, reading...`);
           const configContent = readFileSync(configPath, "utf8");
           const config = JSON.parse(configContent);
+          console.log(`📋 Config keys:`, Object.keys(config));
           if (config.storage?.database?.path) {
             this.dbPath = config.storage.database.path;
             console.log(`✅ Database path loaded from config.json: ${this.dbPath} (updated)`);
           } else {
+            console.log(`❌ No database path in config, config keys:`, Object.keys(config));
             console.log('📊 No database path in config.json, using in-memory database');
             this.dbPath = ":memory:";
           }
@@ -50,13 +55,13 @@ export class StorageService {
           console.log('📊 No config.json found, using in-memory database');
           this.dbPath = ":memory:";
         }
-      } catch {
-        console.log('📊 Error reading config.json, using in-memory database');
+      } catch (error) {
+        console.log('📊 Error reading config.json, using in-memory database:', error);
         this.dbPath = ":memory:";
       }
     }
 
-    this.dbManager = new DatabaseManager(this.dbPath);
+    // DatabaseManager will be created during initialization
   }
 
   /**
@@ -69,6 +74,9 @@ export class StorageService {
    */
   async initialize(): Promise<void> {
     try {
+      // Create DatabaseManager with current dbPath
+      console.log(`🔧 Creating DatabaseManager with path: ${this.dbPath}`);
+      this.dbManager = new DatabaseManager(this.dbPath);
       await this.dbManager.initialize();
       logger.info("Storage service initialized");
     } catch (error) {
@@ -81,7 +89,7 @@ export class StorageService {
    * Ensure storage service is initialized
    */
   private async ensureInitialized(): Promise<void> {
-    if (!this.dbManager.isInitialized()) {
+    if (!this.dbManager || !this.dbManager.isInitialized()) {
       await this.initialize();
     }
   }
