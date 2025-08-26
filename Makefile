@@ -78,7 +78,13 @@ push-develop:
 
 workspace-status:
 	@echo "📋 Git status:"
-	@git status -sb | cat
+	@git status -sb
+
+workspace-discard:
+	@echo "🧽 Discarding local changes..."
+	@git reset --hard HEAD
+	@git clean -fd
+	@echo "✅ Workspace cleaned"
 
 workspace-commit:
 	@echo "📝 Committing Makefile changes for sync..."
