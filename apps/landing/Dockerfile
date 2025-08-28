@@ -39,9 +39,9 @@ RUN addgroup --system --gid 1001 nodejs \
 
 # Копируем собранное приложение (standalone)
 COPY --from=base /app/apps/landing/.next/standalone ./
-# Копируем статические ассеты и public в ожидаемые пути
-COPY --from=base /app/apps/landing/.next/static ./.next/static
-COPY --from=base /app/apps/landing/public ./public
+# Копируем статические ассеты и public в ожидаемые пути проекта внутри standalone
+COPY --from=base /app/apps/landing/.next/static ./apps/landing/.next/static
+COPY --from=base /app/apps/landing/public ./apps/landing/public
 
 # Устанавливаем права
 RUN chown -R nextjs:nodejs /app
@@ -53,5 +53,5 @@ EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
 
-# Запускаем приложение (server.js располагается в корне standalone)
-CMD ["node", "server.js"]
+# Запускаем приложение (server.js располагается в apps/landing внутри standalone)
+CMD ["node", "apps/landing/server.js"]
