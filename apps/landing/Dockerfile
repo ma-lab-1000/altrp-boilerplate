@@ -9,10 +9,12 @@ RUN npm install -g bun
 
 # Копируем корневые файлы зависимостей
 COPY package*.json ./
-COPY bun.lockb ./
+COPY bun.lock ./
 
-# Копируем workspace пакеты
+# Копируем workspace пакеты (ui, utils и т.п.)
 COPY packages/ ./packages/
+
+# Подготавливаем landing пакет
 COPY apps/landing/package.json ./apps/landing/
 
 # Устанавливаем зависимости
@@ -28,11 +30,11 @@ RUN bun run --cwd apps/landing build
 FROM node:18-alpine AS runner
 WORKDIR /app
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 # Создаем пользователя
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+RUN addgroup --system --gid 1001 nodejs \
+  && adduser --system --uid 1001 nextjs
 
 # Копируем собранное приложение
 COPY --from=base /app/apps/landing/.next/standalone ./
@@ -46,8 +48,8 @@ USER nextjs
 # Открываем порт
 EXPOSE 3000
 
-ENV PORT 3000
-ENV HOSTNAME "0.0.0.0"
+ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
 
 # Запускаем приложение
 CMD ["node", "apps/landing/server.js"]
