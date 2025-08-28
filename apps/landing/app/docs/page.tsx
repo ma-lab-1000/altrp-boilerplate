@@ -1,6 +1,6 @@
 import { DocsLayout } from '@lnd/ui/templates'
 import { SiteConfigProvider } from '@lnd/ui/providers/SiteConfigProvider'
-import { getDocsPages, getDocsMeta, docsMetaToNavigation } from '@lnd/utils/content'
+import { getDocsPages, getDocsMeta, docsMetaToNavigation, type MDXFile } from '@lnd/utils/content'
 import { generateMetadata } from '@lnd/utils/seo/metadata'
 import Link from 'next/link'
 import type { Viewport } from 'next'
