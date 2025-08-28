@@ -53,5 +53,5 @@ EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
 
-# Запускаем приложение (server.js располагается в apps/landing внутри standalone)
-CMD ["node", "apps/landing/server.js"]
+# Запускаем приложение (server.js располагается в корне standalone)
+CMD ["node", "server.js"]
