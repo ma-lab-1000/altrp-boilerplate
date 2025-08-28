@@ -1,3 +1,3 @@
 export * from './frontmatter'
 export * from './readers'
-export * from './mdx'
+export type { MDXFrontmatter, MDXFile, MDXCollection } from './mdx'
