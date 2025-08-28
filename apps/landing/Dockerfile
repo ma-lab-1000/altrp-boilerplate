@@ -10,6 +10,7 @@ RUN npm install -g bun
 # Копируем корневые файлы зависимостей
 COPY package*.json ./
 COPY bun.lock ./
+COPY tsconfig.json ./
 
 # Копируем workspace пакеты (ui, utils и т.п.)
 COPY packages/ ./packages/
