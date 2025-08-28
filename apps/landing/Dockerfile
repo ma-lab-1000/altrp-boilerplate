@@ -37,11 +37,20 @@ ENV NODE_ENV=production
 RUN addgroup --system --gid 1001 nodejs \
   && adduser --system --uid 1001 nextjs
 
-# Копируем собранное приложение (standalone)
+# Копируем собранное приложение (standalone) целиком в корень
 COPY --from=base /app/apps/landing/.next/standalone ./
-# Копируем статические ассеты и public в ожидаемые пути проекта внутри standalone
+
+# Копируем статические ассеты и public для обоих возможных расположений
+# Вариант 1: сервер и статика в корне standalone
+COPY --from=base /app/apps/landing/.next/static ./.next/static
+COPY --from=base /app/apps/landing/public ./public
+# Вариант 2: сервер и статика внутри apps/landing
 COPY --from=base /app/apps/landing/.next/static ./apps/landing/.next/static
 COPY --from=base /app/apps/landing/public ./apps/landing/public
+
+# Копируем node_modules из standalone для обоих вариантов путей
+COPY --from=base /app/apps/landing/.next/standalone/node_modules ./node_modules
+COPY --from=base /app/apps/landing/.next/standalone/apps/landing/node_modules ./apps/landing/node_modules
 
 # Устанавливаем права
 RUN chown -R nextjs:nodejs /app
